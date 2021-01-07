@@ -60,11 +60,9 @@ export default class CardPriceCommand extends Command {
       return;
     }
 
-    console.log(`Searching for ${args.content}`);
-
     try {
       const res = await axios.get(base_url + construct_search_term(args.content));
-      console.log(res);
+      console.log(res.status);
 
       let cards = [];
       recursive_search(parse(res.data).lastChild as HTMLElement, card_class, cards);
