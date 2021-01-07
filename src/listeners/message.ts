@@ -3,7 +3,7 @@ import { Message } from 'discord.js';
 import CustomClient from '../CustomClient';
 import CardPriceCommand from '../commands/cardprice';
 
-const serial_regex = /[0-9]*\/[0-9]*/;
+const serial_regex = /[0-9]+\/[0-9]+/;
 
 export default class SongChangeListener extends Listener {
   client: CustomClient;
