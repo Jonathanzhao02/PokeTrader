@@ -1,1 +1,1 @@
-bot: yarn production
+web: yarn production
