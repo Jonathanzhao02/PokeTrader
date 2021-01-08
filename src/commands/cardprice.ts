@@ -75,9 +75,11 @@ export default class CardPriceCommand extends Command {
       cards.forEach(node => {
         const card_results = [];
         recursive_search(node as HTMLElement, card_text, card_results);
+        const title = card_results.map(node => node.text).filter(val => val).join(' | ');
         const text_results = [];
         recursive_search(node as HTMLElement, info_text, text_results);
-        embed.addField(card_results.map(node => node.text).filter(val => val).join(' | '), text_results.map(node => node.text).filter(val => money_regex.test(val)).join(' '));
+        const info = text_results.map(node => node.text).filter(val => money_regex.test(val)).join(' ');
+        if (title && info) embed.addField(title, info);
       });
 
       if (cards.length < 1) {
@@ -86,6 +88,7 @@ export default class CardPriceCommand extends Command {
 
       message.channel.send(embed);
     } catch (e) {
+      console.log(e);
       message.reply('Sorry, something went wrong with your search!');
     }
   }
