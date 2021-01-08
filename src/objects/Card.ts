@@ -18,7 +18,7 @@ export default class Card {
   }
 
   getAvgPrice(): number {
-    return Number(this.prices.reduce((accum, current) => accum + current / this.prices.length, 0).toFixed(2));
+    return this.prices.reduce((accum, current) => accum + current / this.prices.length, 0);
   }
 
   getCommonPrice(): number {
@@ -27,8 +27,6 @@ export default class Card {
     let maxVal = this.prices[0];
 
     this.prices.forEach((val, idx) => {
-      count++;
-
       if (idx > 0) {
         if (val !== this.prices[idx - 1]) {
 
@@ -40,6 +38,8 @@ export default class Card {
           count = 0;
         }
       }
+
+      count++;
     });
 
     return maxVal;
