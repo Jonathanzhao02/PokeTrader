@@ -13,7 +13,14 @@ function getCardPricesInfo(card: Card): string {
 
   if (card.getPrices().length > 1) {
     info += `Prices Listed: ${card.getPrices().length}`;
-    info += `\nMost common Price: $${card.getCommonPrice().toFixed(2)}`;
+    const commonPrices = card.getCommonPrices();
+    
+    if (commonPrices.length == 1) {
+      info += `\nMost Common Price: $${commonPrices[0].toFixed(2)}`;
+    } else {
+      info += `\nMost Common Price: ${commonPrices.map(v => `$${v.toFixed(2)}`).join(' ')}`;
+    }
+
     info += `\nAvg Price: $${card.getAvgPrice().toFixed(2)}`;
     info += `\nMin Price: $${card.getMinPrice().toFixed(2)}`;
     info += `\nMax Price: $${card.getMaxPrice().toFixed(2)}`;

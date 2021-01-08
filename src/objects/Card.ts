@@ -1,3 +1,5 @@
+import * as numbers from '../util/numbers';
+
 export default class Card {
   private prices: number[];
   private name: string;
@@ -10,39 +12,19 @@ export default class Card {
   }
 
   getMaxPrice(): number {
-    return this.prices[this.prices.length - 1];
+    return numbers.max(this.prices);
   }
 
   getMinPrice(): number {
-    return this.prices[0];
+    return numbers.min(this.prices);
   }
 
   getAvgPrice(): number {
-    return this.prices.reduce((accum, current) => accum + current / this.prices.length, 0);
+    return numbers.mean(this.prices);
   }
 
-  getCommonPrice(): number {
-    let count = 0;
-    let maxCount = 1;
-    let maxVal = this.prices[0];
-
-    this.prices.forEach((val, idx) => {
-      if (idx > 0) {
-        if (val !== this.prices[idx - 1]) {
-
-          if (count > maxCount) {
-            maxCount = count;
-            maxVal = this.prices[idx - 1];
-          }
-
-          count = 0;
-        }
-      }
-
-      count++;
-    });
-
-    return maxVal;
+  getCommonPrices(): number[]{
+    return numbers.sortedMode(this.prices);
   }
 
   getPrices(): number[] {
