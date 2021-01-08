@@ -2,7 +2,7 @@ import { Command } from 'discord-akairo';
 import { Message, MessageEmbed } from 'discord.js';
 import Card from '../objects/Card';
 import getCardEmbed from '../util/getCardEmbed';
-import searchCard from '../util/searchCard';
+import fetchCard from '../util/fetchCard';
 
 type CardPriceArguments = {
   content: string
@@ -54,9 +54,10 @@ export default class CardPriceCommand extends Command {
     }
 
     try {
-      const cards = await searchCard(args.content);
-      let embed = new MessageEmbed();
-      embed.setTitle('Results');
+      const cards = await fetchCard(args.content);
+      let embed = new MessageEmbed()
+        .setTitle('Results')
+        .setColor('#0000FF');
       if (cards.length == 0) {
         embed.setDescription(`No results for **${args.content}**`);
       } else if (cards.length > 1) {
