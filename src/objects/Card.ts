@@ -24,7 +24,7 @@ export default class Card {
   }
 
   getCommonPrices(): number[]{
-    return numbers.sortedMode(this.prices);
+    return numbers.mode(this.prices);
   }
 
   getPrices(): number[] {

@@ -18,7 +18,7 @@ function getCardPricesInfo(card: Card): string {
     if (commonPrices.length == 1) {
       info += `\nMost Common Price: $${commonPrices[0].toFixed(2)}`;
     } else {
-      info += `\nMost Common Price: ${commonPrices.map(v => `$${v.toFixed(2)}`).join(' ')}`;
+      info += `\nMost Common Prices: ${commonPrices.map(v => `$${v.toFixed(2)}`).join(' ')}`;
     }
 
     info += `\nAvg Price: $${card.getAvgPrice().toFixed(2)}`;

@@ -26,32 +26,6 @@ export function mode(array: number[]): number[] {
   return best;
 }
 
-export function sortedMode(array: number[]): number[] {
-  let count = 0;
-  let maxCount = 1;
-  let maxVals = [array[0]];
-
-  array.forEach((val, idx) => {
-    if (idx > 0) {
-      if (val !== array[idx - 1]) {
-
-        if (count > maxCount) {
-          maxCount = count;
-          maxVals = [array[idx - 1]];
-        } else if (count === maxCount) {
-          maxVals.push(array[idx - 1]);
-        }
-
-        count = 0;
-      }
-    }
-
-    count++;
-  });
-
-  return maxVals;
-}
-
 export function min(array: number[]): number {
   return array.reduce((accum, val) => val < accum ? val : accum, array[0]);
 }
