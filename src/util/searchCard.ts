@@ -12,18 +12,18 @@ const base_url = 'https://www.trollandtoad.com/category.php?selected-cat=7061&se
 const slash_char = '%2F';
 const space_char = '+';
 
-function construct_search_term(val: string) {
+function constructSearchTerm(val: string) {
   return val.replace(/\//g, slash_char).replace(/\ /g, space_char);
 }
 
-function recursive_search(obj: HTMLElement, keyword: string, results: HTMLElement[]) {
+function recursiveSearch(obj: HTMLElement, keyword: string, results: HTMLElement[]) {
   for (const childNode of obj.childNodes) {
     if (childNode instanceof HTMLElement) {
         
       if (childNode.classNames.some(v => v === keyword)) {
         results.push(childNode);
       } else {
-        recursive_search(childNode, keyword, results);
+        recursiveSearch(childNode, keyword, results);
       }
 
     } else {
@@ -32,29 +32,29 @@ function recursive_search(obj: HTMLElement, keyword: string, results: HTMLElemen
   }
 }
 
-export default async function search_card(query: string): Promise<Card[]> {
+export default async function searchCard(query: string): Promise<Card[]> {
   const cards = [];
 
   console.log(`Accepted search for ${query}`);
-  const res = await axios.get(base_url + construct_search_term(query));
+  const res = await axios.get(base_url + constructSearchTerm(query));
   console.log(`Status for ${query}: ${res.status}`);
 
   const results = [];
-  recursive_search(parse(res.data).lastChild as HTMLElement, card_class, results);
+  recursiveSearch(parse(res.data).lastChild as HTMLElement, card_class, results);
   results.forEach(node => {
     const imgs = [];
-    recursive_search(node as HTMLElement, image_class, imgs);
-    const img = imgs.map(val => (val as HTMLElement).getAttribute('src')).find(v => v);
+    recursiveSearch(node as HTMLElement, image_class, imgs);
+    const img = imgs.map(val => (val as HTMLElement).getAttribute('data-src')).find(v => v);
     const card_results = [];
-    recursive_search(node as HTMLElement, card_text, card_results);
+    recursiveSearch(node as HTMLElement, card_text, card_results);
     const title = card_results.map((node) => node.text).filter(val => val).join(' | ');
     const text_results = [];
-    recursive_search(node as HTMLElement, info_text, text_results);
+    recursiveSearch(node as HTMLElement, info_text, text_results);
     const prices = text_results.map(node => node.text).filter(val => money_regex.test(val)).map(val => Number(val.substr(1)));
     if (title && prices.length > 0) {
       cards.push(new Card(title, prices, img));
     }
   });
 
-  return cards;
+  return cards.filter(card => card);
 }

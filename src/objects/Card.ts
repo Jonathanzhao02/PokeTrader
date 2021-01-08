@@ -1,7 +1,7 @@
 export default class Card {
-  prices: number[];
-  name: string;
-  img: string;
+  private prices: number[];
+  private name: string;
+  private img: string;
 
   constructor(name: string, prices: number[], img: string) {
     this.name = name;
@@ -18,11 +18,7 @@ export default class Card {
   }
 
   getAvgPrice(): number {
-    return this.prices.reduce((accum, current) => accum + current / this.prices.length, 0);
-  }
-
-  getAllPrices(): number[] {
-    return this.prices;
+    return Number(this.prices.reduce((accum, current) => accum + current / this.prices.length, 0).toFixed(2));
   }
 
   getCommonPrice(): number {
@@ -47,5 +43,17 @@ export default class Card {
     });
 
     return maxVal;
+  }
+
+  getPrices(): number[] {
+    return this.prices;
+  }
+
+  getName(): string {
+    return this.name;
+  }
+
+  getImg(): string {
+    return this.img;
   }
 }
